@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const methodOverride = require('method-override')
 const todoRoute = require('./routes/to-do');
+const authenticationRoute = require('./routes/authentication')
 const app = express();
 const port = 4000
 const mongodb = 'mongodb://localhost/to-do';
@@ -26,7 +27,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use('/', todoRoute)
+app.use('/todos', todoRoute)
+app.use('/authentication', authenticationRoute)
 
 app.use((req, res, next) => {
     const err = new Error('Not found')

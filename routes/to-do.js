@@ -3,7 +3,7 @@ const router = express.Router();
 const todo = require('../models/to-do')
 
 //ROUTE TO GET ALL TODO DATA FROM THE DATABASE
-router.get('/todos', (req, res, next) => {
+router.get('/', (req, res, next) => {
     todo.find((err, docs) => {
         res.send({todos: docs});
     })
@@ -14,7 +14,7 @@ router.get('/todos', (req, res, next) => {
 })
 
 //ROUTE TO ADD A TODO DATA TO THE DATABASE
-router.post('/todos/create', (req, res, next) => {
+router.post('/create', (req, res, next) => {
     const { name, description, startDate, endDate, duration } = req.body
     
     const newTodo = new todo({ name, description, startDate, endDate, duration});
@@ -29,7 +29,7 @@ router.post('/todos/create', (req, res, next) => {
 })
 
 //ROUTE TO GET TODO DATA FROM THE DATABASE
-router.get('/todos/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
     todo.findById((req.params.id), (err, docs) => {
         if(err) {
             const err = new Error("Unable to retrieve data")
@@ -43,7 +43,7 @@ router.get('/todos/:id', (req, res, next) => {
 })
 
 //ROUTE TO UPDATE TODO DATA IN THE DATABASE
-router.put('/todos/:id', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
     todo.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, (err, docs) => {
         if(err) {
             console.log("can't update data beacuse of some database problem")
@@ -55,7 +55,7 @@ router.put('/todos/:id', (req, res, next) => {
 
 
 //ROUTE TO DELETE TODO DATA FROM THE DATABASE
-router.delete('/todos/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
     todo.findByIdAndDelete({_id: req.params.id}, (err, docs) => {
         if(err) {
             console.log("Something went wrog to delete date")
