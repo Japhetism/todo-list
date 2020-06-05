@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const methodOverride = require('method-override')
 const todoRoute = require('./routes/to-do');
 const app = express();
 const port = 4000
@@ -26,5 +27,22 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/', todoRoute)
+
+app.use((req, res, next) => {
+    const err = new Error('Not found')
+    err.status = 404
+    next(err)
+})
+
+//ERROR HANDLER
+app.use((err, req, res, next) => {
+    res.status(err.status || 500)
+    res.send({
+        error: {
+            status: err.status || 500,
+            message: err.message
+        }
+    })
+})
 
 app.listen(port, () => console.log(`Sample app listening on port ${port}`))

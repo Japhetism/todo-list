@@ -8,6 +8,7 @@ router.get('/todos', (req, res, next) => {
         res.send({todos: docs});
     })
     .catch(err => {
+        next("Something went wrong")
         console.log("Something went wrong");
     })
 })
@@ -31,6 +32,9 @@ router.post('/todos/create', (req, res, next) => {
 router.get('/todos/:id', (req, res, next) => {
     todo.findById((req.params.id), (err, docs) => {
         if(err) {
+            const err = new Error("Unable to retrieve data")
+            err.status = 400
+            next(err)
             console.log("can't retrieve data beacuse of some database problem")
         }else{
             res.send({todo: docs})
