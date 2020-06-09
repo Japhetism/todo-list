@@ -37,6 +37,7 @@ router.get('/:id', (req, res, next) => {
             next(err)
             console.log("can't retrieve data beacuse of some database problem")
         }else{
+            console.log(docs)
             res.send({todo: docs})
         }
     })
